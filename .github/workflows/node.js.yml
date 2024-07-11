@@ -142,10 +142,10 @@ jobs:
             sudo ./aws/install
             aws --version
 
-      - name: Zip dist folder
-        run: |
-          cd /var/www/html
-          sudo zip -r dist.zip . -i dist/*
+      # - name: Zip dist folder
+      #   run: |
+      #     cd /var/www/html
+      #     sudo zip -r dist.zip . -i dist/*
 
   upload_to_s3:
       runs-on: ubuntu-latest
@@ -170,8 +170,8 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           instance-ids: ${{ secrets.INSTANCE_IDS }}
 
-          working-directory: /home/ubuntu/
+          working-directory: /home/ubuntu/var/www/html
           command: |
-            mkdir /var/www/html/dist
-            aws s3 cp /var/www/html/dist.zip s3://prashansa-s3-bucket/dist.zip
+            sudo zip -r dist.zip . -i dist/*
+            aws s3 cp /dist.zip s3://prashansa-s3-bucket/dist.zip
     
