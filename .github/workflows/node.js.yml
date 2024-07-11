@@ -145,7 +145,7 @@ jobs:
       - name: Zip dist folder
         run: |
           cd /var/www/html
-          sudo zip -r dist.zip dist
+          sudo zip -r dist.zip . -i dist/*
 
   upload_to_s3:
       runs-on: ubuntu-latest
