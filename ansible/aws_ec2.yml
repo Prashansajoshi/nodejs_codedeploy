@@ -4,7 +4,7 @@ regions:
 hostnames:
   - instance-id
 groups:
-  Dev: "'prashansa-ec2' in tags.Name"
+  Dev: "'prashansa_terraform_ec2' in tags.Name"
 filters:
-  tag:Name: "prashansa-ec2"
+  tag:Name: "prashansa_terraform_ec2"
   instance-state-name: running
