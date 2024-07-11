@@ -49,9 +49,9 @@
     args:
       chdir: /home/ubuntu/Node_Project/backend
 
-  # - name: Remove frontend and backend server if created using pm2 to avoid port conflict
-  #   command: pm2 delete frontend backend
-  #   ignore_errors: yes
+  - name: Remove frontend and backend server if created using pm2 to avoid port conflict
+    command: pm2 delete frontend backend
+    ignore_errors: true
 
   - name: Build frontend
     command: npm run build
