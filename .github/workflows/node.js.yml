@@ -142,36 +142,43 @@ jobs:
             sudo ./aws/install
             aws --version
 
-      # - name: Zip dist folder
-      #   run: |
-      #     cd /var/www/html
-      #     sudo zip -r dist.zip . -i dist/*
+      - name: Zip dist folder
+        run: |
+          cd /var/www/html
+          sudo zip -r dist.zip . -i dist/*
 
-  upload_to_s3:
-      runs-on: ubuntu-latest
-      needs: download_build_app
-      steps:
+      - name: Debug output
+        run: |
+          echo "Current directory contents:"
+          ls -l /var/www/html
+          echo "Checking for dist.zip:"
+          ls -l /var/www/html/*.zip
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          aws-region: us-east-1
+  # upload_to_s3:
+  #     runs-on: ubuntu-latest
+  #     needs: download_build_app
+  #     steps:
 
-      - name: AWS SSM Send-Command
-        uses: adexltd/aws-ssm-send-command@master
-        id: transfer-code
-        with:
-          aws-region: us-east-1
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          instance-ids: ${{ secrets.INSTANCE_IDS }}
+  #     - name: Configure AWS Credentials
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+  #         aws-region: us-east-1
 
-          working-directory: /home/ubuntu/var/www/html
-          command: |
-            sudo zip -r dist.zip . -i dist/*
-            aws s3 cp /dist.zip s3://prashansa-s3-bucket/dist.zip
+  #     - name: AWS SSM Send-Command
+  #       uses: adexltd/aws-ssm-send-command@master
+  #       id: transfer-code
+  #       with:
+  #         aws-region: us-east-1
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+  #         instance-ids: ${{ secrets.INSTANCE_IDS }}
+
+  #         working-directory: /home/ubuntu/var/www/html
+  #         command: |
+  #           sudo zip -r dist.zip . -i dist/*
+  #           aws s3 cp /dist.zip s3://prashansa-s3-bucket/dist.zip
     
