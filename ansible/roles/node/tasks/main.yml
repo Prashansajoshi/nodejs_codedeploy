@@ -19,7 +19,7 @@
     copy:
       dest: /home/ubuntu/Node_Project/frontend/.env
       content: |
-        VITE_API_URL=http://54.236.46.163:3000
+        VITE_API_URL=http://18.209.67.237:3000
     
   - name: Ensure Node.js is installed
     apt:
@@ -52,6 +52,20 @@
   # - name: Remove frontend and backend server if created using pm2 to avoid port conflict
   #   command: pm2 delete frontend backend
   #   ignore_errors: yes
+
+  - name: Build frontend
+    command: npm run build
+    args:
+      chdir: /home/ubuntu/Node_Project/frontend
+
+  - name: Ensure /var/www/html exists
+    file:
+        path: /var/www/html
+        state: directory
+        mode: '0755'
+
+  - name: Copy to var/www/html
+    command: cp -r /home/ubuntu/Node_Project/frontend/dist /var/www/html
 
   - name: Start frontend server with pm2
     command: pm2 start npm --name frontend -- run dev
