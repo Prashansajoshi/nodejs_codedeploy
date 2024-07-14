@@ -40,14 +40,22 @@
     #   becomes: true
 
 
-    - name: Debug - Show database tables output
-      debug:
-        var: db_tables.stdout
+    # - name: Debug - Show database tables output
+    #   debug:
+    #     var: db_tables.stdout
 
 
-    - name: Restore database
-      mysql_db:
-        name: "{{ DB_NAME }}"
-        state: import
-        target: /home/ubuntu/Node_Project/db.sql
-      when: db_tables.stdout == ''
+    # - name: Restore database
+    #   mysql_db:
+    #     name: "{{ DB_NAME }}"
+    #     state: import
+    #     target: /home/ubuntu/Node_Project/db.sql
+    #   when: db_tables.stdout == ''
+
+    - name: Create MySQL user
+      mysql_user:
+        name: "{{ DB_USERNAME }}"
+        password: "{{ DB_PASSWORD }}"
+        priv: "*.*:ALL"
+        host: localhost
+        state: present
