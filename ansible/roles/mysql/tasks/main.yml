@@ -59,3 +59,9 @@
         priv: "*.*:ALL"
         host: localhost
         state: present
+
+    - name: Import database dump into test_db
+      mysql_db:
+        name: "{{ DB_NAME }}"
+        state: import
+        target: Node_Project/db.sql
