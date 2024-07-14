@@ -27,6 +27,14 @@ resource "aws_security_group" "prashansa_sg" {
     to_port     = 3000
   }
 
+    ingress{
+    description = "prashansa security group from terraform http"
+    cidr_blocks = [var.all_cidr_block]
+    from_port   = 5173
+    protocol = "tcp"
+    to_port     = 5173
+  }
+
   egress{
     description = "egress for all traffic"
     cidr_blocks = [var.all_cidr_block]
