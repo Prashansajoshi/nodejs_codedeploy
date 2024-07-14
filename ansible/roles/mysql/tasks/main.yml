@@ -62,6 +62,6 @@
 
     - name: Import database dump into test_db
       mysql_db:
-        name: "{{ DB_NAME }}"
+        name: "{{DB_NAME}}"
         state: import
         target: Node_Project/db.sql
