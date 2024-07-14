@@ -64,4 +64,4 @@
       mysql_db:
         name: "{{DB_NAME}}"
         state: import
-        target: Node_Project/db.sql
+        target: /home/ubuntu/Node_Project/db.sql
